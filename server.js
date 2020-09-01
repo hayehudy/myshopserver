@@ -40,8 +40,7 @@ app.get("/shop/:id", (req, res) => {
 app.post("/shop", (req, res) => {
   fs.readFile("shop.json", (err, data) => {
     const shop = JSON.parse(data);
-    const newProduct = req.body;
-    shop.push(newProduct);
+    shop.push(req.body);
     fs.writeFile("shop.json", JSON.stringify(shop), (err) => {
       // console.log(err);
       res.send("YOU SUCCEED!!!");
@@ -54,24 +53,30 @@ app.post("/upload", (req, res) => {
   res.send("WOW!");
 });
 
-app.delete("/shop/:id", (req, res) => {
+app.delete("/shop/:title", (req, res) => {
   fs.readFile("shop.json", (err, data) => {
     const shop = JSON.parse(data);
-    const productId = +req.params.id;
-    const productIndex = shop.findIndex((product) => product.id === productId);
-    shop.splice(productIndex, 1);
+    const productTitle = req.params.title;
+    const productIndex = shop.findIndex(
+      (product) => product.title === productTitle
+    );
+    if (productIndex > -1) {
+      shop.splice(productIndex, 1);
+    }
     fs.writeFile("shop.json", JSON.stringify(shop), (err) => {
       res.send("YOU SUCCEED!!!");
     });
   });
 });
 
-app.put("/shop/:id", (req, res) => {
+app.put("/shop", (req, res) => {
   fs.readFile("shop.json", (err, data) => {
     const shop = JSON.parse(data);
-    const todoId = +req.params.id;
-    const todoIndex = shop.findIndex((todo) => todo.id === todoId);
-    shop[todoIndex].title = req.body.title;
+    const titles = req.body;
+    const titleIndex = shop.findIndex(
+      (product) => product.title === titles.oldTitle
+    );
+    shop[titleIndex].title = titles.newTitle;
     fs.writeFile("shop.json", JSON.stringify(shop), (err) => {
       res.send("YOU SUCCEED!!!");
     });
