@@ -3,6 +3,10 @@ const fs = require("fs");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const http = require("http");
+const socketIo = require("socket.io");
+const server = http.createServer(app);
+const io = socketIo(server);
 
 app.use(bodyParser.json());
 
@@ -13,7 +17,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/shop", (req, res) => {
-  console.log("QUERY:", req.query);
   const search = req.query.search;
   fs.readFile("shop.json", (err, data) => {
     const shop = JSON.parse(data);
@@ -46,6 +49,7 @@ app.post("/shop", (req, res) => {
       res.send("YOU SUCCEED!!!");
     });
   });
+  io.emit("addProduct", shop);
 });
 
 app.post("/upload", (req, res) => {
@@ -67,25 +71,41 @@ app.delete("/shop/:title", (req, res) => {
       res.send("YOU SUCCEED!!!");
     });
   });
+  io.emit("deleteProduct", shop);
 });
 
-app.put("/shop", (req, res) => {
+// app.put("/shop", (req, res) => {
+//   fs.readFile("shop.json", (err, data) => {
+//     const shop = JSON.parse(data);
+//     const titles = req.body;
+//     const titleIndex = shop.findIndex(
+//       (product) => product.title === titles.oldTitle
+//     );
+//     shop[titleIndex].title = titles.newTitle;
+//     fs.writeFile("shop.json", JSON.stringify(shop), (err) => {
+//       res.send("YOU SUCCEED!!!");
+//     });
+//   });
+// });
+
+app.put("/shop/update", (req, res) => {
   fs.readFile("shop.json", (err, data) => {
     const shop = JSON.parse(data);
-    const titles = req.body;
     const titleIndex = shop.findIndex(
-      (product) => product.title === titles.oldTitle
+      (product) => product.title === req.body.title
     );
-    shop[titleIndex].title = titles.newTitle;
+    shop[titleIndex].quantity = req.body.newQuantity;
+
     fs.writeFile("shop.json", JSON.stringify(shop), (err) => {
       res.send("YOU SUCCEED!!!");
     });
+    io.emit("updateQuantity", shop);
   });
 });
 
 app.use("/images", express.static("images"));
 
-app.listen(8000, () => {
+server.listen(8000, () => {
   console.log("Example app listening on port 8000!");
 });
 
