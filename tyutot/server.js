@@ -31,14 +31,14 @@ app.get("/shop", (req, res) => {
   });
 });
 
-app.get("/shop/:id", (req, res) => {
-  fs.readFile("shop.json", (err, data) => {
-    const shop = JSON.parse(data);
-    const productId = +req.params.id;
-    const place = shop.findIndex((x) => x.id === productId);
-    res.send(shop[place]);
-  });
-});
+// app.get("/shop/:id", (req, res) => {
+//   fs.readFile("shop.json", (err, data) => {
+//     const shop = JSON.parse(data);
+//     const productId = +req.params.id;
+//     const place = shop.findIndex((x) => x.id === productId);
+//     res.send(shop[place]);
+//   });
+// });
 
 app.post("/shop", (req, res) => {
   fs.readFile("shop.json", (err, data) => {
@@ -60,7 +60,7 @@ app.post("/upload", (req, res) => {
 app.delete("/shop/:title", (req, res) => {
   fs.readFile("shop.json", (err, data) => {
     const shop = JSON.parse(data);
-    const productTitle = req.params.title;
+    const productTitle = req.body;
     const productIndex = shop.findIndex(
       (product) => product.title === productTitle
     );
