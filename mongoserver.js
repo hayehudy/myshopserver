@@ -13,7 +13,7 @@ const path = require('path');
  
  
 // Serve static files from the React app
-// app.use('/',express.static('client'));
+app.use('/',express.static('client'));
  
 app.use(bodyParser.json());
 app.use(cors());
