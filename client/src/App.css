@@ -1,0 +1,77 @@
+.App {
+  position: relative;
+  text-align: center;
+  border-width: 3px;
+  border-color: green;
+  border-style: solid;
+  width: 865px;
+  height: 710px;
+}
+
+.hed {
+  position: absolute;
+  width: 98%;
+  margin: 7px;
+}
+
+.prod {
+  position: absolute;
+  margin: 7px;
+  top: 72px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: orange;
+  height: 620px;
+  width: 670px;
+  overflow-y: auto;
+}
+
+.cart {
+  position: absolute;
+  display: inline;
+  border-width: 3px;
+  border-color: brown;
+  border-style: solid;
+  margin: 7px;
+  top: 72px;
+  right: 3px;
+  height: 620px;
+  width: 165px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

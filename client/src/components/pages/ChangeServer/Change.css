@@ -1,0 +1,33 @@
+.idToDelete {
+  width: 60%;
+  text-align: center;
+}
+
+.input {
+  width: 60%;
+  text-align: center;
+  margin: 2px;
+}
+
+textarea {
+  width: 60%;
+  text-align: center;
+}
+
+.borderToChange {
+  margin: 150px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  border: black 1px solid;
+  border-radius: 12px;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 1px 1px 4px black !important;
+  padding: 2rem !important;
+}
+
+.addimg {
+  border-style: black 1px solid;
+  text-align: center;
+}

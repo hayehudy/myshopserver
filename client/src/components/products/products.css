@@ -1,0 +1,26 @@
+.productInCart {
+  /* position: absolute; */
+  display: inline;
+  float: right;
+  margin: 7px;
+  width: 110px;
+  height: 175px;
+  border-color: blue;
+  border-width: 3px;
+  border-style: solid;
+  font-size: small;
+}
+
+.pr {
+  /* position: absolute; */
+  display: inline;
+  margin: 7px;
+  width: 200px;
+  height: 280px;
+  float: left;
+  border-color: blue;
+  border-width: 3px;
+  border-style: solid;
+}
+
+@import "~antd/dist/antd.css";

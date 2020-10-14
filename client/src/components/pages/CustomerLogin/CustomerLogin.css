@@ -1,0 +1,12 @@
+.borderToLogin {
+  margin: 150px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  border: black 1px solid;
+  border-radius: 12px;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 1px 1px 4px black !important;
+  padding: 2rem !important;
+}

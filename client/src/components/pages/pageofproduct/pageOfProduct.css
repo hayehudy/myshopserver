@@ -1,0 +1,11 @@
+.pap {
+  border-radius: 10px;
+  border-width: 3px;
+  border-style: solid;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-left: 300px;
+  margin-right: 300px;
+  text-align: center;
+  padding: 10px;
+}
