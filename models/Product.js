@@ -19,7 +19,7 @@ const productInCartSchema = schema({
 const cartSchema = schema({
   products: [{ type: schema.Types.ObjectId, ref: "ProductInCart" }],
   charge: Number,
-  customer: [{ type: schema.Types.ObjectId, ref: "Customer" }],
+  customer: { type: schema.Types.ObjectId, ref: "Customer" },
 });
 
 const customerSchema = schema({

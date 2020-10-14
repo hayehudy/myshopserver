@@ -9,7 +9,12 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const { connectDb, models } = require("./models");
 const { model } = require("mongoose");
-
+const path = require('path');
+ 
+ 
+// Serve static files from the React app
+// app.use('/',express.static('client'));
+ 
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -24,12 +29,11 @@ app.get("/shop", async (req, res) => {
   let products = [];
   if (search) {
     products = await models.Product.find({
-      title: { $regex: search },
+      title: { $regex: '^'+search ,$options: 'i'}
     }).exec();
   } else {
     products = await models.Product.find().exec();
   }
-  console.log(search);
   res.send(products);
 });
 
@@ -106,6 +110,7 @@ app.post("/shop/cartAdd", async (req, res) => {
   const product = await models.Product.findOne({
     title: title,
   }).exec();
+  await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity-1})
 
   const theCart = await models.Cart.findOne({ _id: cartId }).exec();
   const searchProduct = await models.ProductInCart.findOne({
@@ -141,16 +146,16 @@ app.post("/shop/cartRemove", async (req, res) => {
   const product = await models.Product.findOne({
     title: title,
   }).exec();
+  await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity+1})
 
   const theCart = await models.Cart.findOne({ _id: cartId }).exec();
-  const PIC = await models.ProductInCart.find();
+ 
   const searchProduct = await models.ProductInCart.findOne({
     productFromShop: product._id,
     cartId: cartId,
   }).exec();
 
-  console.log(PIC);
-  console.log(searchProduct);
+  
 
   if (searchProduct.quantityOnCart > 1) {
     await models.ProductInCart.findOneAndUpdate(
@@ -166,12 +171,16 @@ app.post("/shop/cartRemove", async (req, res) => {
     );
     // console.log(theCart.products);
     // console.log(index);
-    const theUpdatedCartProducts = theCart.products.splice([index], 1);
-    // console.log(theUpdatedCartProducts);
+    const updateCartProducts = theCart.products.splice([index], 1);
+    
+    console.log(updateCartProducts);
     const deleteFromCart = await models.Cart.findOneAndUpdate(
       { _id: cartId },
-      { products: theUpdatedCartProducts }
+      { products: theCart.products}
     ).exec();
     // console.log(deleteFromCart.products);
   }
+  res.send("you succeed!");
 });
+
+app.use("/images", express.static("images"));
