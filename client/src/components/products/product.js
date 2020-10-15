@@ -38,7 +38,7 @@ function Product(props) {
     const firstQuantity = initialData[placeA].quantity;
     if (prop.quantity > 0) {
       if (name && password) {
-        axios.post("http://127.0.0.1:8000/shop/cartAdd", body).then((res) => {
+        axios.post("http://127.0.0.1:8000/api/shop/cartAdd", body).then((res) => {
           setCartId(res.data);
         });
       }
@@ -72,7 +72,7 @@ function Product(props) {
     if (prop.quantity < firstQuantity) {
       if (name && password) {
         //
-        axios.post("http://127.0.0.1:8000/shop/cartRemove", body);
+        axios.post("http://127.0.0.1:8000/api/shop/cartRemove", body);
       }
       setCart(cart - 1);
       setCartCharge(cartCharge - prop.price);

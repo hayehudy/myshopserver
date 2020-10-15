@@ -8,7 +8,7 @@ export default function PageOfProduct() {
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/shop/${id}`).then((res) => {
+    axios.get(`http://127.0.0.1:8000/api/shop/${id}`).then((res) => {
       setPageOP(res.data);
     });
   }, []);

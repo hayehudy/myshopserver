@@ -21,14 +21,14 @@ export default function Change(props) {
   const newQuantity = useRef();
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/shop").then((res) => {
+    axios.get("http://127.0.0.1:8000/api/shop").then((res) => {
       setShop(res.data);
     });
   }, []);
 
   function deleted() {
     axios
-      .delete("http://127.0.0.1:8000/shop", {
+      .delete("http://127.0.0.1:8000/api/shop", {
         title: productToDelete.current.value,
       })
       .then((res) => {
@@ -42,13 +42,13 @@ export default function Change(props) {
     const newProduct = {
       id: shop.length + 1,
       title: Title.current.value,
-      image: `http://localhost:8000/images/${newImage.current.files[0].name}`,
+      image: `http://localhost:8000/api/images/${newImage.current.files[0].name}`,
       quantity: Quantity.current.value,
       price: Price.current.value,
       description: Description.current.value,
     };
     // console.log(newProduct);
-    axios.post(`http://127.0.0.1:8000/shop`, newProduct).then((res) => {
+    axios.post(`http://127.0.0.1:8000/api/shop`, newProduct).then((res) => {
       console.log(`shcoyech!`);
     });
   }
@@ -58,13 +58,13 @@ export default function Change(props) {
       title: title.current.value,
       newQuantity: newQuantity.current.value,
     };
-    axios.put("http://127.0.0.1:8000/shop/update", updates).then((res) => {
+    axios.put("http://127.0.0.1:8000/api/shop/update", updates).then((res) => {
       console.log("המלאי התעדכן");
     });
   }
 
   function uploadFile() {
-    axios.post("http://127.0.0.1:8000/upload", newImage.current.files[0], {
+    axios.post("http://127.0.0.1:8000/api/upload", newImage.current.files[0], {
       params: { filename: newImage.current.files[0].name },
     });
   }

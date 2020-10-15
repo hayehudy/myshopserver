@@ -44,14 +44,14 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/shop", { params: { search: search } })
+      .get("http://127.0.0.1:8000/api/shop", { params: { search: search } })
       .then((res) => {
         setProducts(res.data);
       });
   }, [search]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/shop").then((res) => {
+    axios.get("http://127.0.0.1:8000/api/shop").then((res) => {
       setShopFromServer(res.data);
     });
   }, []);
