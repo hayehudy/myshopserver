@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 connectDb().then(() => {
-  const port = process.env.PORT || 5000;
+  const port = process.env.PORT || 8000;
   server.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
   });
