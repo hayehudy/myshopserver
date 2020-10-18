@@ -47,7 +47,7 @@ app.get("api/shop", async (req, res) => {
 
 app.get("api/shop/:id", async (req, res) => {
   const productId = +req.params.id;
-  const findProduct = await models.Product.findOne({ id: productId });
+  const findProduct = await models.Product.findOne({ id: productId }).exec();
   res.send(findProduct);
 });
 
@@ -55,7 +55,7 @@ app.post("api/shop", async (req, res) => {
   const newProduct = await new models.Product(req.body);
   newProduct.save();
   res.send("YOU SUCCEED!!!");
-  const products = await models.Product.find();
+  const products = await models.Product.find().exec();
   io.emit("addProduct", products);
 });
 
@@ -66,9 +66,9 @@ app.post("api/upload", (req, res) => {
 
 app.delete("api/shop", async (req, res) => {
   const ProductTitle = req.body.title;
-  await models.Product.findOneAndDelete({ title: ProductTitle });
+  await models.Product.findOneAndDelete({ title: ProductTitle }).exec();
   res.send("YOU SUCCEED!!!");
-  const products = await models.Product.find();
+  const products = await models.Product.find().exec();
   io.emit("deleteProduct", products);
 });
 
@@ -77,10 +77,10 @@ app.put("api/shop/update", async (req, res) => {
   await models.Product.findOneAndUpdate(
     { title: title },
     { quantity: newQuantity }
-  );
+  ).exec();
 
   res.send("YOU SUCCEED!!!");
-  const products = await models.Product.find();
+  const products = await models.Product.find().exec();
   io.emit("updateQuantity", products);
 });
 
@@ -97,7 +97,7 @@ app.post("api/shop/cartAdd", async (req, res) => {
   let customer = await models.Customer.findOne({
     name: name,
     password: password,
-  });
+  }).exec();
   if (!customer) {
     customer = new models.Customer({ name: name, password: password });
     await customer.save();
@@ -111,20 +111,20 @@ app.post("api/shop/cartAdd", async (req, res) => {
     await models.Customer.findOneAndUpdate(
       { name: name, password: password },
       { carts: [...customer.carts, newCart] }
-    );
+    ).exec();
   }
 
   //get the product that additional
   const product = await models.Product.findOne({
     title: title,
   }).exec();
-  await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity-1})
+  await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity-1}).exec();
 
   const theCart = await models.Cart.findOne({ _id: cartId }).exec();
   const searchProduct = await models.ProductInCart.findOne({
     productFromShop: product._id,
     cartId: cartId,
-  });
+  }).exec();
 
   // add the product to cart
   if (!searchProduct) {
