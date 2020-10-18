@@ -44,20 +44,20 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/shop", { params: { search: search } })
+      .get("/api/shop", { params: { search: search } })
       .then((res) => {
         setProducts(res.data);
       });
   }, [search]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/shop").then((res) => {
+    axios.get("/api/shop").then((res) => {
       setShopFromServer(res.data);
     });
   }, []);
 
   useEffect(() => {
-    const socket = socketIOClient("http://localhost:8000");
+    const socket = socketIOClient("/");
     socket.on("updateQuantity", (data) => {
       setProducts(data);
     });
