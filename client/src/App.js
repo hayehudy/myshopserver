@@ -13,7 +13,7 @@ import { Provider } from "./context";
 
 function App() {
   const [initialData, setInitialData] = useState([]);
-  const [data, setDatat] = useState([]);
+  const [data, setData] = useState([]);
   const [cart, setCart] = useState(0);
   const [cartCharge, setCartCharge] = useState(0);
   const [itemsOfCart, setItems] = useState([]);
@@ -45,26 +45,26 @@ function App() {
     axios
       .get("/api/shop", { params: { search: search } })
       .then((res) => {
-        setProducts(res.data);
+        setData(res.data);
       });
   }, [search]);
 
   useEffect(() => {
     axios.get("/api/shop").then((res) => {
-      setShopFromServer(res.data);
+      setInitialData(res.data);
     });
   }, []);
 
   useEffect(() => {
     const socket = socketIOClient("/");
     socket.on("updateQuantity", (data) => {
-      setProducts(data);
+      setData(data);
     });
     socket.on("deleteProduct", (data) => {
-      setProducts(data);
+      setData(data);
     });
     socket.on("addProduct", (data) => {
-      setProducts(data);
+      setData(data);
     });
   }, []);
 
@@ -85,7 +85,7 @@ function App() {
               </div>
 
               <div className="prod">
-                <Products products={products} information={"shop"}/>
+                <Products products={Data} information={"shop"}/>
               </div>
             </div>
           </Route>
