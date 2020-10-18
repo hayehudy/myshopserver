@@ -9,12 +9,11 @@ import Header from "../src/components/header/header";
 import Products from "../src/components/products/products";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
-
 import { Provider } from "./context";
 
 function App() {
-  const [shopFromServer, setShopFromServer] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [initialData, setInitialData] = useState([]);
+  const [data, setDatat] = useState([]);
   const [cart, setCart] = useState(0);
   const [cartCharge, setCartCharge] = useState(0);
   const [itemsOfCart, setItems] = useState([]);
@@ -23,9 +22,9 @@ function App() {
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
   const theShop = {
-    data: products,
-    changeData: (value) => setProducts(value),
-    initialData: shopFromServer,
+    data: data,
+    changeData: (value) => setData(value),
+    initialData: initialData,
     cart: cart,
     itemsOfCart: itemsOfCart,
     setCart: (value) => setCart(value),

@@ -1,31 +1,25 @@
 const express = require("express");
 const fs = require("fs");
 const app = express();
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const http = require("http");
 const socketIo = require("socket.io");
 const server = http.createServer(app);
 const io = socketIo(server);
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const http = require("http");
 const { connectDb, models } = require("./models");
 const { model } = require("mongoose");
 const path = require('path');
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-
-
-dotenv.config();
- 
+dotenv.config(); 
  
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
- 
-
- 
+app.use(express.static(path.join(__dirname, 'client/build'))); 
 app.use(bodyParser.json());
 app.use(cors());
 
-connectDb().then(async () => {
+connectDb().then(() => {
   const port = process.env.PORT || 5000;
   server.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
