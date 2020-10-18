@@ -85,7 +85,7 @@ function App() {
               </div>
 
               <div className="prod">
-                <Products products={Data} information={"shop"}/>
+                <Products products={data} information={"shop"}/>
               </div>
             </div>
           </Route>
