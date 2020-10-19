@@ -56,7 +56,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const socket = socketIOClient("http://localhost:8000");
+    const socket = socketIOClient("/");
     socket.on("updateQuantity", (data) => {
       setData(data);
     });
