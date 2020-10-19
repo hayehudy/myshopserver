@@ -43,14 +43,14 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/shop", { params: { search: search } })
+      .get("/api/shop", { params: { search: search } })
       .then((res) => {
         setData(res.data);
       });
   }, [search]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/shop").then((res) => {
+    axios.get("/api/shop").then((res) => {
       setInitialData(res.data);
     });
   }, []);
