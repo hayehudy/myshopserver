@@ -1,12 +1,12 @@
 const express = require("express");
 const fs = require("fs");
 const app = express();
+const http = require("http");
 const socketIo = require("socket.io");
-const server = http.createServer(app);
-const io = socketIo(server);
+// const server = http.createServer(app);
+// const io = socketIo(server);
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const http = require("http");
 const { connectDb, models } = require("./models");
 const { model } = require("mongoose");
 const path = require('path');
@@ -15,18 +15,19 @@ const morgan = require("morgan");
 dotenv.config(); 
  
 // Serve static files from the React app
+app.use("/images", express.static("images"));
 app.use(express.static(path.join(__dirname, 'client/build'))); 
 app.use(bodyParser.json());
 app.use(cors());
 
 connectDb().then(() => {
   const port = process.env.PORT || 8000;
-  server.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
   });
 });
 
-app.get("api/shop", async (req, res) => {
+app.get("/api/shop", async (req, res) => {
   const search = req.query.search;
   let products = [];
   if (search) {
@@ -39,13 +40,13 @@ app.get("api/shop", async (req, res) => {
   res.send(products);
 });
 
-app.get("api/shop/:id", async (req, res) => {
+app.get("/api/shop/:id", async (req, res) => {
   const productId = +req.params.id;
   const findProduct = await models.Product.findOne({ id: productId }).exec();
   res.send(findProduct);
 });
 
-app.post("api/shop", async (req, res) => {
+app.post("/api/shop", async (req, res) => {
   const newProduct = await new models.Product(req.body);
   newProduct.save();
   res.send("YOU SUCCEED!!!");
@@ -53,12 +54,12 @@ app.post("api/shop", async (req, res) => {
   io.emit("addProduct", products);
 });
 
-app.post("api/upload", (req, res) => {
+app.post("/api/upload", (req, res) => {
   req.pipe(fs.createWriteStream(`images/${req.query.filename}`));
   res.send("WOW!");
 });
 
-app.delete("api/shop", async (req, res) => {
+app.delete("/api/shop", async (req, res) => {
   const ProductTitle = req.body.title;
   await models.Product.findOneAndDelete({ title: ProductTitle }).exec();
   res.send("YOU SUCCEED!!!");
@@ -66,7 +67,7 @@ app.delete("api/shop", async (req, res) => {
   io.emit("deleteProduct", products);
 });
 
-app.put("api/shop/update", async (req, res) => {
+app.put("/api/shop/update", async (req, res) => {
   const { title, newQuantity } = req.body;
   await models.Product.findOneAndUpdate(
     { title: title },
@@ -78,7 +79,7 @@ app.put("api/shop/update", async (req, res) => {
   io.emit("updateQuantity", products);
 });
 
-app.post("api/shop/cartAdd", async (req, res) => {
+app.post("/api/shop/cartAdd", async (req, res) => {
   //information from client (req):
   //1. title of the product to add.
   //2. cart-id! (if it already there is)
@@ -143,7 +144,7 @@ app.post("api/shop/cartAdd", async (req, res) => {
   //the client will check if cart-id sended, and will catch it in state-variable
 });
 
-app.post("api/shop/cartRemove", async (req, res) => {
+app.post("/api/shop/cartRemove", async (req, res) => {
   const { title, cartId } = req.body;
   const product = await models.Product.findOne({
     title: title,
@@ -185,4 +186,4 @@ app.post("api/shop/cartRemove", async (req, res) => {
   res.send("you succeed!");
 });
 
-app.use("api/images", express.static("images"));
+

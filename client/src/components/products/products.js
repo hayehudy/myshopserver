@@ -44,7 +44,7 @@ function Products(props) {
       {products.map(
         (product) =>
           
-          product.price > value0 && 
+          product.price >= value0 && 
             product.price <= value1 && (
             <div className={className}>
               <Product

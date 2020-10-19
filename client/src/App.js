@@ -43,20 +43,20 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("/api/shop", { params: { search: search } })
+      .get("http://localhost:8000/api/shop", { params: { search: search } })
       .then((res) => {
         setData(res.data);
       });
   }, [search]);
 
   useEffect(() => {
-    axios.get("/api/shop").then((res) => {
+    axios.get("http://localhost:8000/api/shop").then((res) => {
       setInitialData(res.data);
     });
   }, []);
 
   useEffect(() => {
-    const socket = socketIOClient("/");
+    const socket = socketIOClient("http://localhost:8000");
     socket.on("updateQuantity", (data) => {
       setData(data);
     });

@@ -4,7 +4,7 @@ const { Product, ProductInCart, Cart, Customer } = require("./Product.js");
 const connectDb = () => {
   const db_address=process.env.DB_ADDRESS;
   return mongoose.connect(
-    db_address,
+    "mongodb://localhost/test",
 
     {
       useNewUrlParser: true,
