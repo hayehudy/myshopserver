@@ -22,8 +22,8 @@ app.use(cors());
 
 connectDb().then(() => {
   const port = process.env.PORT || 8000;
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`);
+  server.listen(port, () => {
+    console.log(`Example app listening on port 8000!`);
   });
 });
 
@@ -73,7 +73,6 @@ app.put("/api/shop/update", async (req, res) => {
     { title: title },
     { quantity: newQuantity }
   ).exec();
-
   res.send("YOU SUCCEED!!!");
   const products = await models.Product.find().exec();
   io.emit("updateQuantity", products);
@@ -185,5 +184,4 @@ app.post("/api/shop/cartRemove", async (req, res) => {
   }
   res.send("you succeed!");
 });
-
 
