@@ -60,7 +60,7 @@ app.post("/api/upload", (req, res) => {
 });
 
 app.delete("/api/shop", async (req, res) => {
-  const ProductTitle = req.body.title;
+  const ProductTitle = req.query.title;
   await models.Product.findOneAndDelete({ title: ProductTitle }).exec();
   res.send("YOU SUCCEED!!!");
   const products = await models.Product.find().exec();

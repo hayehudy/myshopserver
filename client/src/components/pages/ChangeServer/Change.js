@@ -27,10 +27,9 @@ export default function Change(props) {
   }, []);
 
   function deleted() {
+    const titleToDelete={title:productToDelete.current.value}
     axios
-      .delete("/api/shop", {
-        title: productToDelete.current.value,
-      })
+      .delete("/api/shop", {params:titleToDelete})
       .then((res) => {
         console.log(
           `product whith title ${productToDelete.current.value} deleted`
@@ -42,7 +41,7 @@ export default function Change(props) {
     const newProduct = {
       id: shop.length + 1,
       title: Title.current.value,
-      image: `/api/images/${newImage.current.files[0].name}`,
+      image: `../../../../images/${newImage.current.files[0].name}`,
       quantity: Quantity.current.value,
       price: Price.current.value,
       description: Description.current.value,
