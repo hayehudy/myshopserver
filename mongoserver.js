@@ -56,6 +56,11 @@ app.get("/api/shop/:id", async (req, res) => {
   res.send(findProduct);
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
+
+
 app.post("/api/shop", async (req, res) => {
   const newProduct = await new models.Product(req.body);
   newProduct.save();
