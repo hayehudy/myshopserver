@@ -27,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(cors());
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
 
 connectDb().then(() => {
   const port = process.env.PORT || 8000;
