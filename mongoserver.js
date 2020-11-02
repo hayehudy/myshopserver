@@ -12,18 +12,26 @@ const { model } = require("mongoose");
 const path = require('path');
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const cloudinary = require("cloudinary");
 dotenv.config(); 
+
+cloudinary.config({
+  cloud_name: "doaqrneiv",
+  api_key: "676161393779472",
+  api_secret: "lmPswLqjFGTU5uXWWA9V8P_2dcc"
+  });
  
 // Serve static files from the React app
 app.use("/images", express.static("images"));
 app.use(express.static(path.join(__dirname, 'client/build'))); 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(cors());
 
 connectDb().then(() => {
   const port = process.env.PORT || 8000;
   server.listen(port, () => {
-    console.log(`Example app listening on port 8000!`);
+    console.log(`the-shop-of-mordechay app listening on port ${port}!`);
   });
 });
 
@@ -54,9 +62,11 @@ app.post("/api/shop", async (req, res) => {
   io.emit("addProduct", products);
 });
 
-app.post("/api/upload", (req, res) => {
-  req.pipe(fs.createWriteStream(`images/${req.query.filename}`));
-  res.send("WOW!");
+app.post("/api/upload",  async (req, res) => {  
+  // req.pipe(fs.createWriteStream(`images/${req.query.filename}`));
+  cloudinary.v2.uploader.upload(req.body.base64,
+   await function (error,result)
+    {res.send(result.url)});  
 });
 
 app.delete("/api/shop", async (req, res) => {
@@ -112,7 +122,7 @@ app.post("/api/shop/cartAdd", async (req, res) => {
   const product = await models.Product.findOne({
     title: title,
   }).exec();
-  await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity-1}).exec();
+  // await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity-1}).exec();
 
   const theCart = await models.Cart.findOne({ _id: cartId }).exec();
   const searchProduct = await models.ProductInCart.findOne({
@@ -148,7 +158,7 @@ app.post("/api/shop/cartRemove", async (req, res) => {
   const product = await models.Product.findOne({
     title: title,
   }).exec();
-  await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity+1})
+  // await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity+1}).exec();
 
   const theCart = await models.Cart.findOne({ _id: cartId }).exec();
  

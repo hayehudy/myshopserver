@@ -3,6 +3,7 @@ import "./App.css";
 import PageOfProduct from "../src/components/pages/pageofproduct/pageOfProduct";
 import Login from "../src/components/pages/pageOfLogin/login";
 import CustomerLogin from "../src/components/pages/CustomerLogin/CustomerLogin";
+import GoToPay from "../src/components/pages/GoToPay/GoToPay";
 import Change from "../src/components/pages/ChangeServer/Change";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Header from "../src/components/header/header";
@@ -60,9 +61,9 @@ function App() {
     socket.on("updateQuantity", (data) => {
       setData(data);
     });
-    socket.on("deleteProduct", (data) => {
-      setData(data);
-    });
+    // socket.on("deleteProduct", (data) => {
+    //   setData(data);
+    // });
     socket.on("addProduct", (data) => {
       setData(data);
     });
@@ -77,23 +78,26 @@ function App() {
               <div className="hed">
                 <Header />
               </div>
-              <div className="cart">
+              {/* <div className="cart">
                 פריטים שנוספו לעגלה: {cart}
                 <br />
-                לתשלום: {cartCharge}
+                לתשלום: {cartCharge} */}
                 <Products className="items"  products={itemsOfCart} information={"cart"}/>
               </div>
 
               <div className="prod">
                 <Products products={data} information={"shop"}/>
               </div>
-            </div>
           </Route>
           <Route exact path="/login">
             <Login />
           </Route>
           <Route exact path="/customerLogin">
             <CustomerLogin />
+          </Route>
+          <Route exact path="/goToPay">
+             <Products className="items" products={itemsOfCart} information={"pay"}/>
+             <GoToPay />
           </Route>
           <Route exact path="/changeServer">
             <Change />

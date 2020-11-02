@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+ import React, { useState, useRef, useEffect, useContext } from "react";
 import "./Change.css";
-import { Input, Form, Checkbox, Button } from "antd";
+import { Input, Form, Checkbox, Button, Progress } from "antd";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Context from "../../../context";
@@ -16,9 +16,10 @@ export default function Change(props) {
   const Price = useRef();
   const Description = useRef();
   const newImage = useRef();
-
   const title = useRef();
   const newQuantity = useRef();
+  const [base64,setBase64]=useState("");
+  const [url,setUrl]=useState(null);
 
   useEffect(() => {
     axios.get("/api/shop").then((res) => {
@@ -41,7 +42,8 @@ export default function Change(props) {
     const newProduct = {
       id: shop.length + 1,
       title: Title.current.value,
-      image: `../../../../images/${newImage.current.files[0].name}`,
+      image: url,
+      // image: `../../../../images/${newImage.current.files[0].name}`,
       quantity: Quantity.current.value,
       price: Price.current.value,
       description: Description.current.value,
@@ -62,11 +64,28 @@ export default function Change(props) {
     });
   }
 
-  function uploadFile() {
-    axios.post("/api/upload", newImage.current.files[0], {
-      params: { filename: newImage.current.files[0].name },
-    });
+   function previewFile(){
+    const file=newImage.current.files[0];
+    const reader= new FileReader();
+    reader.addEventListener("load", function convert(){
+         setBase64(reader.result);
+      
+    }, false)
+    if (file)
+    {reader.readAsDataURL(file)};
   }
+
+  function uploadFile() {
+        axios.post("/api/upload", {base64}, {
+      params: { filename: newImage.current.files[0].name},
+  // onUploadProgress: (progressEvent)=>{
+  //   const percentCompleted=Math.round(
+  //     (progressEvent.loaded*100)/progressEvent.total
+  //   );
+  // }
+}).then((res) => {
+  setUrl(res.data);
+  })}
 
   return (
     <div className="borderToChange">
@@ -90,7 +109,7 @@ export default function Change(props) {
       <div className="addimg">
         בחר את תמונת המוצר החדש
         <br />
-        <input className="input" type="file" ref={newImage} id="uploadedFile" />
+        <input className="input" type="file" ref={newImage} id="uploadedFile" onChange={previewFile} />
         <button onClick={uploadFile}>העלה את התמונה לשרת</button>
       </div>
       <input

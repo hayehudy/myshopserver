@@ -7,10 +7,16 @@ function Header() {
   const { name, password } = useContext(Context);
   return (
     <div className="hd">
-      <h3>המוצרים שלנו</h3>
+      <h3>תשמישי הקדושה</h3>
       <Link to="/login">
         <button className="loginButton">התחבר כמנהל</button>
       </Link>
+
+      <span className="goToPay">
+        <Link to="/goToPay">
+          <button>בצע קניה</button>
+        </Link>
+      </span>
       <span className="CustomerLoginButton">
         {!name && (
           <Link to="/CustomerLogin">

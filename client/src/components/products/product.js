@@ -7,9 +7,9 @@ import Context from "../../context";
 function Product(props) {
   const prop = props.product;
   const trueId = prop.id;
-  const imgClass=props.information==="shop"?"shopImg":"cartImg";
-  const buttonOfAdd=props.information==="shop"?"הוסף מוצר לעגלה":"+";
-  const buttonOfRemove=props.information==="shop"?"הסר מוצר מהעגלה":"-";
+  const imgClass = props.information === "shop" ? "shopImg" : "cartImg";
+  const buttonOfAdd = props.information === "shop" ? "הוסף מוצר לעגלה" : "+";
+  const buttonOfRemove = props.information === "shop" ? "הסר מוצר מהעגלה" : "-";
   const {
     data,
     initialData,
@@ -34,8 +34,8 @@ function Product(props) {
   };
 
   function add() {
-    const placeA = initialData.findIndex((x) => x.id === prop.id);
-    const firstQuantity = initialData[placeA].quantity;
+    const initial = initialData.find((x) => x.id === prop.id);
+    const firstQuantity = initial.quantity;
     if (prop.quantity > 0) {
       if (name && password) {
         axios.post("/api/shop/cartAdd", body).then((res) => {
@@ -46,21 +46,24 @@ function Product(props) {
       setCartCharge(cartCharge + prop.price);
       //change the quantity of the product in the shop
       prop.quantity = prop.quantity - 1;
-      let newProducts = data;
+
+          
+  let newProducts = data;
       const place1 = newProducts.findIndex((x) => x.id === prop.id);
       newProducts[place1] = prop;
       changeData(newProducts);
       //add product to the cart or change his quantity on cart
-      const newItem = prop;
+            
+      
+      
+      const newItem = prop
       const place2 = itemsOfCart.findIndex((x) => x.id === prop.id);
       if (place2 > -1) {
         const newItems = itemsOfCart;
-        const replaceQuanti = (newItems[place2].quantityOnCart =
-          firstQuantity - prop.quantity);
+        newItems[place2].quantityOnCart = firstQuantity - prop.quantity;
         setItems(newItems);
       } else {
-        const addQuantiOnCart = (newItem.quantityOnCart =
-          firstQuantity - prop.quantity);
+        newItem.quantityOnCart = firstQuantity - prop.quantity;
         setItems([...itemsOfCart, newItem]);
       }
     }
@@ -106,15 +109,20 @@ function Product(props) {
         <div>
           <img src={prop.image} className={imgClass} />
         </div>
-        {props.information==="shop"?
-        (<>
-        <div>המחיר: {prop.price}</div>
-        <div>המלאי בחנות: {prop.quantity} </div></>):
-        ( <><div>הכמות: {prop.quantityOnCart}</div>
-          <div>לתשלום: {prop.price * prop.quantityOnCart}</div></>)}
-      </Link>      
+        {props.information === "shop" ? (
+          <>
+            <div>המחיר: {prop.price}</div>
+            <div>המלאי בחנות: {prop.quantity} </div>
+          </>
+        ) : (
+          <>
+            <div>הכמות: {prop.quantityOnCart}</div>
+            <div>לתשלום: {prop.price * prop.quantityOnCart}</div>
+          </>
+        )}
+      </Link>
       <button onClick={add}>{buttonOfAdd}</button>
-        <button onClick={remove}>{buttonOfRemove}</button>
+      <button onClick={remove}>{buttonOfRemove}</button>
     </div>
   );
 }
