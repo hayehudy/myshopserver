@@ -76,14 +76,14 @@ export default function Change(props) {
   }
 
   function uploadFile() {
-        axios.post("/api/upload", {base64}, {
-      params: { filename: newImage.current.files[0].name},
+        axios.post("/api/upload", {base64}, 
+        // {params: { filename: newImage.current.files[0].name},
   // onUploadProgress: (progressEvent)=>{
   //   const percentCompleted=Math.round(
   //     (progressEvent.loaded*100)/progressEvent.total
   //   );
-  // }
-}).then((res) => {
+  // }}
+).then((res) => {
   setUrl(res.data);
   })}
 
