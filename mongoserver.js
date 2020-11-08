@@ -105,12 +105,12 @@ app.post("/api/shop/newCart", async (req, res) => {
   }).exec();
   if (!customer) {
     customer = new models.Customer({ name: name, password: password });
-    customer.save();
+    await customer.save();
   }
 
   //create a new cart
     const newCart = new models.Cart({ customer: customer._id });
-    newCart.save();
+    await newCart.save();
     await models.Customer.findOneAndUpdate(
       { name: name, password: password },
       { carts: [...customer.carts, newCart] }
@@ -118,7 +118,7 @@ app.post("/api/shop/newCart", async (req, res) => {
   
 
   itemsOfCart.map( async (item)=>{
-    const product = models.Product.findOne({
+    const product = await models.Product.findOne({
       title: item.title,
     }).exec();
 
@@ -132,7 +132,7 @@ app.post("/api/shop/newCart", async (req, res) => {
 
     productsArray=[...productsArray, newCartProduct._id];
     
-    const updateCart= models.Cart.findOneAndUpdate(
+    const updateCart= await models.Cart.findOneAndUpdate(
       { _id: newCart._id },
       { products: productsArray}
     ).exec();
