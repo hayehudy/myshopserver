@@ -6,13 +6,12 @@ import Context from "../../context";
 
 function Product(props) {
   const prop = props.product;
-  const trueId = prop.id;
+  const trueId =prop._id;
   const imgClass = props.information === "shop" ? "shopImg" : "cartImg";
   const buttonOfAdd = props.information === "shop" ? "הוסף מוצר לעגלה" : "+";
   const buttonOfRemove = props.information === "shop" ? "הסר מוצר מהעגלה" : "-";
   const {
     data,
-    initialData,
     changeData,
     cart,
     setCart,
@@ -33,69 +32,57 @@ function Product(props) {
     cartId: cartId,
   };
 
+  const place = data.findIndex((x) => x._id === prop._id);
+  const place1 = itemsOfCart.findIndex((x) => x._id === prop._id);
+
   function add() {
-    const initial = initialData.find((x) => x.id === prop.id);
-    const firstQuantity = initial.quantity;
     if (prop.quantity > 0) {
-      if (name && password) {
-        axios.post("/api/shop/cartAdd", body).then((res) => {
-          setCartId(res.data);
-        });
-      }
+      // if (name && password) {
+      //   axios.post("/api/shop/cartAdd", body).then((res) => {
+      //     setCartId(res.data);
+      //   });
+      // }
+      //change the 
       setCart(cart + 1);
       setCartCharge(cartCharge + prop.price);
-      //change the quantity of the product in the shop
-      prop.quantity = prop.quantity - 1;
-
-          
-  let newProducts = data;
-      const place1 = newProducts.findIndex((x) => x.id === prop.id);
-      newProducts[place1] = prop;
+      //change the quantity of the product in the shop      
+      let newProducts = data;
+      newProducts[place].quantity--;
       changeData(newProducts);
-      //add product to the cart or change his quantity on cart
-            
-      
-      
-      const newItem = prop
-      const place2 = itemsOfCart.findIndex((x) => x.id === prop.id);
-      if (place2 > -1) {
+      //add product to the cart or change his quantity on cart    
+      if (place1 > -1) {
         const newItems = itemsOfCart;
-        newItems[place2].quantityOnCart = firstQuantity - prop.quantity;
+        newItems[place1].quantityOnCart++;
         setItems(newItems);
       } else {
-        newItem.quantityOnCart = firstQuantity - prop.quantity;
+        const newItem = prop;
+        newItem.quantityOnCart = 1;
         setItems([...itemsOfCart, newItem]);
       }
     }
   }
 
-  const remove = (product, quantityOnCart) => {
-    const placeA = initialData.findIndex((x) => x.id === prop.id);
-    const firstQuantity = initialData[placeA].quantity;
-    if (prop.quantity < firstQuantity) {
-      if (name && password) {
-        //
-        axios.post("/api/shop/cartRemove", body);
-      }
+  function remove () {
+    
+    if (place1>-1) {
+      // if (name && password) {
+      //   //
+      //   axios.post("/api/shop/cartRemove", body);
+      // }
       setCart(cart - 1);
       setCartCharge(cartCharge - prop.price);
       //change the quantity of the product in the shop
-      prop.quantity = prop.quantity + 1;
-      let newProducts = data;
-      const place1 = newProducts.findIndex((x) => x.id === prop.id);
-      newProducts[place1] = prop;
+      const newProducts = data;   
+      newProducts[place].quantity++;
       changeData(newProducts);
-      //remove product from the cart or change his quantity on cart
-      const newItem = prop;
-      const place2 = itemsOfCart.findIndex((x) => x.title === prop.title);
-      if (place2 > -1) {
+      //remove product from the cart or change his quantity on cart     
+      if (place1 > -1) {
         const newItems = itemsOfCart;
-        if (newItems[place2].quantityOnCart > 1) {
-          const replaceQuanti = (newItems[place2].quantityOnCart =
-            firstQuantity - prop.quantity);
+        if (newItems[place1].quantityOnCart > 1) {
+          newItems[place1].quantityOnCart--;
           setItems(newItems);
         } else {
-          const removeItem = newItems.splice([place2], 1);
+          newItems.splice([place1], 1);
           setItems(newItems);
         }
       }

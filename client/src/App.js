@@ -13,7 +13,6 @@ import socketIOClient from "socket.io-client";
 import { Provider } from "./context";
 
 function App() {
-  const [initialData, setInitialData] = useState([]);
   const [data, setData] = useState([]);
   const [cart, setCart] = useState(0);
   const [cartCharge, setCartCharge] = useState(0);
@@ -25,7 +24,6 @@ function App() {
   const theShop = {
     data: data,
     changeData: (value) => setData(value),
-    initialData: initialData,
     cart: cart,
     itemsOfCart: itemsOfCart,
     setCart: (value) => setCart(value),
@@ -43,6 +41,7 @@ function App() {
   };
 
   useEffect(() => {
+    console.log("ma kore po");
     axios
       .get("/api/shop", { params: { search: search } })
       .then((res) => {
@@ -51,19 +50,13 @@ function App() {
   }, [search]);
 
   useEffect(() => {
-    axios.get("/api/shop").then((res) => {
-      setInitialData(res.data);
-    });
-  }, []);
-
-  useEffect(() => {
     const socket = socketIOClient("/");
     socket.on("updateQuantity", (data) => {
       setData(data);
     });
-    // socket.on("deleteProduct", (data) => {
-    //   setData(data);
-    // });
+    socket.on("deleteProduct", (data) => {
+      setData(data);
+    });
     socket.on("addProduct", (data) => {
       setData(data);
     });

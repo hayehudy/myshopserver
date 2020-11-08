@@ -11,15 +11,15 @@ export default function Change(props) {
   const [shop, setShop] = useState([]);
   const productToDelete = useRef();
   const Title = useRef();
-  // const Image = useRef();
   const Quantity = useRef();
   const Price = useRef();
   const Description = useRef();
   const newImage = useRef();
   const title = useRef();
   const newQuantity = useRef();
+  const imgLink= useRef();
   const [base64,setBase64]=useState("");
-  const [url,setUrl]=useState(null);
+  const [url,setUrl]=useState("");
 
   useEffect(() => {
     axios.get("/api/shop").then((res) => {
@@ -38,11 +38,16 @@ export default function Change(props) {
       });
   }
 
-  function addProduct() {
+ async function addProduct() {
+  let URL;
+   if (base64){
+    await  axios.post("/api/upload", {base64}).then((res) => {
+      URL=res.data;
+      })}
+
     const newProduct = {
-      id: shop.length + 1,
       title: Title.current.value,
-      image: url,
+      image: URL || imgLink.current.value,
       // image: `../../../../images/${newImage.current.files[0].name}`,
       quantity: Quantity.current.value,
       price: Price.current.value,
@@ -75,23 +80,23 @@ export default function Change(props) {
     {reader.readAsDataURL(file)};
   }
 
-  function uploadFile() {
-        axios.post("/api/upload", {base64}, 
-        // {params: { filename: newImage.current.files[0].name},
-  // onUploadProgress: (progressEvent)=>{
-  //   const percentCompleted=Math.round(
-  //     (progressEvent.loaded*100)/progressEvent.total
-  //   );
-  // }}
-).then((res) => {
-  setUrl(res.data);
-  })}
+//   function uploadFile() {
+//         axios.post("/api/upload", {base64}, 
+//         // {params: { filename: newImage.current.files[0].name},
+//   // onUploadProgress: (progressEvent)=>{
+//   //   const percentCompleted=Math.round(
+//   //     (progressEvent.loaded*100)/progressEvent.total
+//   //   );
+//   // }}
+// ).then((res) => {
+//   setUrl(res.data);
+//   })}
 
   return (
     <div className="borderToChange">
       <h3> מחיקת מוצר</h3>
       בחר את הפריט שברצונך למחוק
-      <select className="input" ref={productToDelete} size="3" multiple>
+      <select className="input" ref={productToDelete} size="3" multiple style={{direction:"ltr"}}>
         {shop.map((product) => (
           <option value={product.title}>{product.title}</option>
         ))}
@@ -107,11 +112,14 @@ export default function Change(props) {
         placeholder="רשום את שמו של הפריט החדש"
       ></input>
       <div className="addimg">
-        בחר את תמונת המוצר החדש
-        <br />
-        <input className="input" type="file" ref={newImage} id="uploadedFile" onChange={previewFile} />
-        <button onClick={uploadFile}>העלה את התמונה לשרת</button>
+        <h4>בחר את תמונת המוצר החדש - שים קישור או בחר קובץ</h4>
+        <input style={{width: 300 +"px", textAlign:"center"}}
+        ref={imgLink} placeholder="העתק לכאן את הקישור לתמונה"></input>
+        <br/>
+        <input className="input" type="file" ref={newImage} id="uploadedFile" onChange={previewFile} data-buttonText="Your label here."/>
+        {/* <button onClick={uploadFile}>העלה את התמונה לשרת</button> */}
       </div>
+      {base64&& <img src= {`${base64}`} style={{width: 80 +"px", height: 60+"px"}}/>}
       <input
         className="input"
         ref={Quantity}

@@ -6,18 +6,21 @@ import { useParams, Link } from "react-router-dom";
 export default function PageOfProduct() {
   const [PageOP, setPageOP] = useState([]);
   const { id } = useParams();
+ 
 
   useEffect(() => {
+    console.log(id);
     axios.get(`http://127.0.0.1:8000/api/shop/${id}`).then((res) => {
+     
       setPageOP(res.data);
     });
   }, []);
-  console.log(PageOP);
+  // console.log(PageOP);
   return (
     <div className="pap">
       <h1>{PageOP.title}</h1>
       <div>
-        <img src={PageOP.image} />
+        <img src={PageOP.image} className="pap-img" />
       </div>
       <div>המחיר:{PageOP.price}</div>
       <br />
