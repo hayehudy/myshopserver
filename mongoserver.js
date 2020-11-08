@@ -140,7 +140,7 @@ app.post("/api/shop/newCart", (req, res) => {
   // });
 
   
-  res.send("the cart saved");
+  res.send("the customer and cart saved");
 })
 
 
