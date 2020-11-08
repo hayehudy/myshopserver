@@ -76,7 +76,6 @@ app.post("/api/upload",  async (req, res) => {
 });
 
 app.delete("/api/shop", async (req, res) => {
-  console.log ("delete");
   const ProductTitle = req.query.title;
   await models.Product.findOneAndDelete({ title: ProductTitle }).exec();
   res.send("YOU SUCCEED!!!");
@@ -96,27 +95,26 @@ app.put("/api/shop/update", async (req, res) => {
 });
 
 app.post("/api/shop/newCart", (req, res) => {
-  console.log("ma holech?");
-  //   const {itemsOfCart, name, password}=req.body;
-  //   let productsArray=[];
+      const {itemsOfCart, name, password}=req.body;
+    let productsArray=[];
 
-  //  // find the customer (if he already there is) or create a new customer
-  //  let customer = await models.Customer.findOne({
-  //   name: name,
-  //   password: password,
-  // }).exec();
-  // if (!customer) {
-  //   customer = new models.Customer({ name: name, password: password });
-  //   await customer.save();
-  // }
+   // find the customer (if he already there is) or create a new customer
+   let customer = await models.Customer.findOne({
+    name: name,
+    password: password,
+  }).exec();
+  if (!customer) {
+    customer = new models.Customer({ name: name, password: password });
+    await customer.save();
+  }
 
-  // //create a new cart
-  //   const newCart = new models.Cart({ customer: customer._id });
-  //   await newCart.save();
-  //   await models.Customer.findOneAndUpdate(
-  //     { name: name, password: password },
-  //     { carts: [...customer.carts, newCart] }
-  //   ).exec();
+  //create a new cart
+    const newCart = new models.Cart({ customer: customer._id });
+    await newCart.save();
+    await models.Customer.findOneAndUpdate(
+      { name: name, password: password },
+      { carts: [...customer.carts, newCart] }
+    ).exec();
   
 
   // itemsOfCart.map(async (item)=>{
