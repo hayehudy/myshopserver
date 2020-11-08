@@ -95,7 +95,7 @@ app.put("/api/shop/update", async (req, res) => {
 });
 
 app.post("/api/shop/newCart", async (req, res) => {
-      const {itemsOfCart, name, password}=req.body;
+    const {itemsOfCart, name, password}=req.body;
     let productsArray=[];
 
    // find the customer (if he already there is) or create a new customer
@@ -108,13 +108,13 @@ app.post("/api/shop/newCart", async (req, res) => {
     await customer.save();
   }
 
-  //create a new cart
-    const newCart = new models.Cart({ customer: customer._id });
-    await newCart.save();
-    await models.Customer.findOneAndUpdate(
-      { name: name, password: password },
-      { carts: [...customer.carts, newCart] }
-    ).exec();
+  // //create a new cart
+  //   const newCart = new models.Cart({ customer: customer._id });
+  //   await newCart.save();
+  //   await models.Customer.findOneAndUpdate(
+  //     { name: name, password: password },
+  //     { carts: [...customer.carts, newCart] }
+  //   ).exec();
   
 
   // itemsOfCart.map(async (item)=>{
