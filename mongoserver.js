@@ -108,13 +108,13 @@ app.post("/api/shop/newCart", async (req, res) => {
     customer.save();
   }
 
-  // //create a new cart
-  //   const newCart = new models.Cart({ customer: customer._id });
-  //   await newCart.save();
-  //   await models.Customer.findOneAndUpdate(
-  //     { name: name, password: password },
-  //     { carts: [...customer.carts, newCart] }
-  //   ).exec();
+  //create a new cart
+    const newCart = new models.Cart({ customer: customer._id });
+    newCart.save();
+    await models.Customer.findOneAndUpdate(
+      { name: name, password: password },
+      { carts: [...customer.carts, newCart] }
+    ).exec();
   
 
   // itemsOfCart.map(async (item)=>{
