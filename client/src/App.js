@@ -41,7 +41,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("ma kore po");
     axios
       .get("/api/shop", { params: { search: search } })
       .then((res) => {
