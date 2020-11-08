@@ -111,14 +111,14 @@ app.post("/api/shop/newCart", async (req, res) => {
   //create a new cart
     const newCart = new models.Cart({ customer: customer._id });
     newCart.save();
-    await models.Customer.findOneAndUpdate(
+    models.Customer.findOneAndUpdate(
       { name: name, password: password },
       { carts: [...customer.carts, newCart] }
     ).exec();
   
 
-  itemsOfCart.map(async (item)=>{
-    const product = await models.Product.findOne({
+  itemsOfCart.map( (item)=>{
+    const product = models.Product.findOne({
       title: item.title,
     }).exec();
 
@@ -132,7 +132,7 @@ app.post("/api/shop/newCart", async (req, res) => {
 
     productsArray=[...productsArray, newCartProduct._id];
     
-    const updateCart= await models.Cart.findOneAndUpdate(
+    const updateCart= models.Cart.findOneAndUpdate(
       { _id: newCart._id },
       { products: productsArray}
     ).exec();
