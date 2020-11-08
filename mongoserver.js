@@ -117,27 +117,27 @@ app.post("/api/shop/newCart", async (req, res) => {
     ).exec();
   
 
-  itemsOfCart.map(async (item)=>{
-    const product = await models.Product.findOne({
-      title: item.title,
-    }).exec();
+  // itemsOfCart.map(async (item)=>{
+  //   const product = await models.Product.findOne({
+  //     title: item.title,
+  //   }).exec();
 
-    //create a new product in cart
-    const newCartProduct = new models.ProductInCart({
-      productFromShop: product._id,
-      quantityOnCart: item.quantityOnCart,
-      cartId: newCart._id,
-    });
-    await newCartProduct.save();  
+  //   //create a new product in cart
+  //   const newCartProduct = new models.ProductInCart({
+  //     productFromShop: product._id,
+  //     quantityOnCart: item.quantityOnCart,
+  //     cartId: newCart._id,
+  //   });
+  //   await newCartProduct.save();  
 
-    productsArray=[...productsArray, newCartProduct._id];
+  //   productsArray=[...productsArray, newCartProduct._id];
     
-    const updateCart= await models.Cart.findOneAndUpdate(
-      { _id: newCart._id },
-      { products: productsArray}
-    ).exec();
+  //   const updateCart= await models.Cart.findOneAndUpdate(
+  //     { _id: newCart._id },
+  //     { products: productsArray}
+  //   ).exec();
   
-  });
+  // });
 
   
   res.send("the cart saved");
