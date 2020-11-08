@@ -117,8 +117,8 @@ app.post("/api/shop/newCart", async (req, res) => {
     ).exec();
   
 
-  itemsOfCart.map( async (item)=>{
-    const product = await models.Product.findOne({
+  itemsOfCart.map(async (item)=>{
+    const product = models.Product.findOne({
       title: item.title,
     }).exec();
 
@@ -138,6 +138,7 @@ app.post("/api/shop/newCart", async (req, res) => {
     ).exec();
   
   });
+  console.log(productsArray)
 
   
   res.send("the customer and cart saved");
