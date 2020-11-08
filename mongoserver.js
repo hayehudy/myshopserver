@@ -138,7 +138,7 @@ app.post("/api/shop/newCart", async (req, res) => {
   //   ).exec();
   
   // });
-  // console.log(productsArray)
+  
 
   
   res.send("the customer and cart saved");
