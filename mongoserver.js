@@ -95,6 +95,7 @@ app.put("/api/shop/update", async (req, res) => {
 });
 
 app.post("/api/shop/newCart", async (req, res) => {
+  console.log("ma holech?");
     const {itemsOfCart, name, password}=req.body;
     let productsArray=[];
 
