@@ -31,11 +31,15 @@ const GoToPay=(props)=>{
       console.log(res.data)
     })}
   }
+
+  function anotherMethode(){
+    console.log("hellow!")
+  }
     return(
         <div className="pay">
         <input type="number" onChange={(e)=>setCreditNumber(e.target.value)} placeholder="הכנס מספר כרטיס אשראי"/>
         <br />
-        <Button onClick={goPay}>לחץ לתשלום</Button>
+        <Button onClick={goPay} onClick={anotherMethode}>לחץ לתשלום</Button>
         <Link to="/" className="linkShop">
           בחזרה לחנות
         </Link>
