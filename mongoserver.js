@@ -95,7 +95,6 @@ app.put("/api/shop/update", async (req, res) => {
 });
 
 app.post("/api/shop/newCart", async (req, res) => {
-  console.log("eliezer");
     const {itemsOfCart, name, password}=req.body;
     let productsArray=[];
 
@@ -110,9 +109,10 @@ app.post("/api/shop/newCart", async (req, res) => {
   }
 
   //create a new cart
-    try{
+    
     const newCart = new models.Cart({ customer: customer._id });
-    await newCart.save();
+    newCart.save();
+    try{
     await models.Customer.findOneAndUpdate(
       { name: name, password: password },
       { carts: [...customer.carts, newCart] }
