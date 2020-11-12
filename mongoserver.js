@@ -94,19 +94,19 @@ app.put("/api/shop/update", async (req, res) => {
   io.emit("updateQuantity", products);
 });
 
-app.post("/api/shop/newCart",(req, res) => {
-    const {itemsOfCart, name, password}=req.body;
-    let productsArray=[];
+// app.post("/api/shop/newCart",(req, res) => {
+//     const {itemsOfCart, name, password}=req.body;
+//     let productsArray=[];
 
-   // find the customer (if he already there is) or create a new customer
-   let customer = models.Customer.findOne({
-    name: name,
-    password: password,
-  }).exec();
-  if (!customer) {
-    customer = new models.Customer({ name: name, password: password });
-    customer.save();
-  }
+//    // find the customer (if he already there is) or create a new customer
+//    let customer = models.Customer.findOne({
+//     name: name,
+//     password: password,
+//   }).exec();
+//   if (!customer) {
+//     customer = new models.Customer({ name: name, password: password });
+//     customer.save();
+//   }
 
   //create a new cart
     
@@ -116,7 +116,7 @@ app.post("/api/shop/newCart",(req, res) => {
     //   { name: name, password: password },
     //   { carts: [...customer.carts, newCart] }
     // ).exec();
-    console.log("cart in customer")
+    // console.log("cart in customer")
     
   
 
