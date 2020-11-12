@@ -105,13 +105,13 @@ app.post("/api/shop/newCart", async (req, res) => {
   }).exec();
   if (!customer) {
     customer = new models.Customer({ name: name, password: password });
-    await customer.save();
+    customer.save();
   }
 
   //create a new cart
     
     const newCart = new models.Cart({ customer: customer._id });
-    await newCart.save();
+    newCart.save();
     // await models.Customer.findOneAndUpdate(
     //   { name: name, password: password },
     //   { carts: [...customer.carts, newCart] }
