@@ -94,7 +94,7 @@ app.put("/api/shop/update", async (req, res) => {
   io.emit("updateQuantity", products);
 });
 
-// app.post("/api/shop/newCart",(req, res) => {
+app.post("/api/shop/newCart",(req, res) => {res.send("halo")})
 //     const {itemsOfCart, name, password}=req.body;
 //     let productsArray=[];
 
@@ -110,8 +110,8 @@ app.put("/api/shop/update", async (req, res) => {
 
   //create a new cart
     
-    const newCart = new models.Cart({ customer: customer._id });
-    newCart.save();
+    // const newCart = new models.Cart({ customer: customer._id });
+    // newCart.save();
     // await models.Customer.findOneAndUpdate(
     //   { name: name, password: password },
     //   { carts: [...customer.carts, newCart] }
@@ -144,8 +144,8 @@ app.put("/api/shop/update", async (req, res) => {
   
 
   
-  res.send("the customer and cart saved");
-})
+//   res.send("the customer and cart saved");
+// })
 
 
 // app.post("/api/shop/cartAdd", async (req, res) => {
