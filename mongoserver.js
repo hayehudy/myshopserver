@@ -112,10 +112,10 @@ app.post("/api/shop/newCart", async (req, res) => {
     
     const newCart = new models.Cart({ customer: customer._id });
     newCart.save();
-    // await models.Customer.findOneAndUpdate(
-    //   { name: name, password: password },
-    //   { carts: [...customer.carts, newCart] }
-    // ).exec();
+    await models.Customer.findOneAndUpdate(
+      { name: name, password: password },
+      { carts: [...customer.carts, newCart] }
+    ).exec();
     console.log("cart in customer")
     
   
