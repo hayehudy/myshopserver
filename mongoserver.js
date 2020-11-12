@@ -111,15 +111,13 @@ app.post("/api/shop/newCart", async (req, res) => {
   //create a new cart
     
     const newCart = new models.Cart({ customer: customer._id });
-    newCart.save();
-    try{
+    await newCart.save();
     await models.Customer.findOneAndUpdate(
       { name: name, password: password },
       { carts: [...customer.carts, newCart] }
-    ).exec();}
-    catch {
-      console.log("cart in customer")
-    }
+    ).exec();
+    console.log("cart in customer")
+    
   
 
   // itemsOfCart.map(async (item)=>{
