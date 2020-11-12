@@ -94,12 +94,12 @@ app.put("/api/shop/update", async (req, res) => {
   io.emit("updateQuantity", products);
 });
 
-app.post("/api/shop/newCart", async (req, res) => {
+app.post("/api/shop/newCart",(req, res) => {
     const {itemsOfCart, name, password}=req.body;
     let productsArray=[];
 
    // find the customer (if he already there is) or create a new customer
-   let customer = await models.Customer.findOne({
+   let customer = models.Customer.findOne({
     name: name,
     password: password,
   }).exec();
