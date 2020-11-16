@@ -94,7 +94,7 @@ app.put("/api/shop/update", async (req, res) => {
   io.emit("updateQuantity", products);
 });
 
-app.post("/api/shop/newCart",(req, res) => {res.send("halo")})
+// app.post("/api/shop/newCart",(req, res) => {res.send("halo")})
 //     const {itemsOfCart, name, password}=req.body;
 //     let productsArray=[];
 
@@ -148,110 +148,110 @@ app.post("/api/shop/newCart",(req, res) => {res.send("halo")})
 // })
 
 
-// app.post("/api/shop/cartAdd", async (req, res) => {
-//   //information from client (req):
-//   //1. title of the product to add.
-//   //2. cart-id! (if it already there is)
-//   //3. name and password of the customer
+app.post("/api/shop/cartAdd", async (req, res) => {
+  //information from client (req):
+  //1. title of the product to add.
+  //2. cart-id! (if it already there is)
+  //3. name and password of the customer
 
-//   let cartId = req.body.cartId;
-//   const { title, name, password } = req.body;
+  let cartId = req.body.cartId;
+  const { title, name, password } = req.body;
 
-//   // find the customer (if he already there is) or make a new customer
-//   let customer = await models.Customer.findOne({
-//     name: name,
-//     password: password,
-//   }).exec();
-//   if (!customer) {
-//     customer = new models.Customer({ name: name, password: password });
-//     await customer.save();
-//   }
+  // find the customer (if he already there is) or make a new customer
+  let customer = await models.Customer.findOne({
+    name: name,
+    password: password,
+  }).exec();
+  if (!customer) {
+    customer = new models.Customer({ name: name, password: password });
+    await customer.save();
+  }
 
-//   //make a new cart in the first add
-//   if (!cartId) {
-//     const newCart = new models.Cart({ customer: customer._id });
-//     await newCart.save();
-//     cartId = newCart._id;
-//     await models.Customer.findOneAndUpdate(
-//       { name: name, password: password },
-//       { carts: [...customer.carts, newCart] }
-//     ).exec();
-//   }
+  //make a new cart in the first add
+  if (!cartId) {
+    const newCart = new models.Cart({ customer: customer._id });
+    await newCart.save();
+    cartId = newCart._id;
+    await models.Customer.findOneAndUpdate(
+      { name: name, password: password },
+      { carts: [...customer.carts, newCart] }
+    ).exec();
+  }
 
-//   //get the product that additional
-//   const product = await models.Product.findOne({
-//     title: title,
-//   }).exec();
-//   // await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity-1}).exec();
+  //get the product that additional
+  const product = await models.Product.findOne({
+    title: title,
+  }).exec();
+  // await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity-1}).exec();
 
-//   const theCart = await models.Cart.findOne({ _id: cartId }).exec();
-//   const searchProduct = await models.ProductInCart.findOne({
-//     productFromShop: product._id,
-//     cartId: cartId,
-//   }).exec();
+  const theCart = await models.Cart.findOne({ _id: cartId }).exec();
+  const searchProduct = await models.ProductInCart.findOne({
+    productFromShop: product._id,
+    cartId: cartId,
+  }).exec();
 
-//   // add the product to cart
-//   if (!searchProduct) {
-//     const newProductInCart = new models.ProductInCart({
-//       productFromShop: product._id,
-//       quantityOnCart: 1,
-//       cartId: cartId,
-//     });
-//     await newProductInCart.save();
-    // await models.Cart.findOneAndUpdate(
-    //   { _id: cartId },
-    //   { products: [...theCart.products, newProductInCart._id] }
-    // ).exec();
-//   } else {
-//     await models.ProductInCart.findOneAndUpdate(
-//       { _id: searchProduct._id },
-//       { quantityOnCart: searchProduct.quantityOnCart + 1 }
-//     ).exec();
-//   }
+  // add the product to cart
+  if (!searchProduct) {
+    const newProductInCart = new models.ProductInCart({
+      productFromShop: product._id,
+      quantityOnCart: 1,
+      cartId: cartId,
+    });
+    await newProductInCart.save();
+    await models.Cart.findOneAndUpdate(
+      { _id: cartId },
+      { products: [...theCart.products, newProductInCart._id] }
+    ).exec();
+  } else {
+    await models.ProductInCart.findOneAndUpdate(
+      { _id: searchProduct._id },
+      { quantityOnCart: searchProduct.quantityOnCart + 1 }
+    ).exec();
+  }
 
-//   res.send(cartId);
-//   //the client will check if cart-id sended, and will catch it in state-variable
-// });
+  res.send(cartId);
+  //the client will check if cart-id sended, and will catch it in state-variable
+});
 
-// app.post("/api/shop/cartRemove", async (req, res) => {
-//   const { title, cartId } = req.body;
-//   const product = await models.Product.findOne({
-//     title: title,
-//   }).exec();
-//   // await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity+1}).exec();
+app.post("/api/shop/cartRemove", async (req, res) => {
+  const { title, cartId } = req.body;
+  const product = await models.Product.findOne({
+    title: title,
+  }).exec();
+  // await models.Product.findOneAndUpdate({title:title},{quantity:product.quantity+1}).exec();
 
-//   const theCart = await models.Cart.findOne({ _id: cartId }).exec();
+  const theCart = await models.Cart.findOne({ _id: cartId }).exec();
  
-//   const searchProduct = await models.ProductInCart.findOne({
-//     productFromShop: product._id,
-//     cartId: cartId,
-//   }).exec();
+  const searchProduct = await models.ProductInCart.findOne({
+    productFromShop: product._id,
+    cartId: cartId,
+  }).exec();
 
   
 
-//   if (searchProduct.quantityOnCart > 1) {
-//     await models.ProductInCart.findOneAndUpdate(
-//       { _id: searchProduct._id },
-//       { quantityOnCart: searchProduct.quantityOnCart - 1 }
-//     ).exec();
-//   } else {
-//     await models.ProductInCart.findOneAndDelete({
-//       _id: searchProduct._id,
-//     }).exec();
-//     const index = theCart.products.findIndex(
-//       (x) => JSON.stringify(x) === JSON.stringify(searchProduct._id)
-//     );
-//     // console.log(theCart.products);
-//     // console.log(index);
-//     const updateCartProducts = theCart.products.splice([index], 1);
+  if (searchProduct.quantityOnCart > 1) {
+    await models.ProductInCart.findOneAndUpdate(
+      { _id: searchProduct._id },
+      { quantityOnCart: searchProduct.quantityOnCart - 1 }
+    ).exec();
+  } else {
+    await models.ProductInCart.findOneAndDelete({
+      _id: searchProduct._id,
+    }).exec();
+    const index = theCart.products.findIndex(
+      (x) => JSON.stringify(x) === JSON.stringify(searchProduct._id)
+    );
+    // console.log(theCart.products);
+    // console.log(index);
+    const updateCartProducts = theCart.products.splice([index], 1);
     
-//     console.log(updateCartProducts);
-//     const deleteFromCart = await models.Cart.findOneAndUpdate(
-//       { _id: cartId },
-//       { products: theCart.products}
-//     ).exec();
-//     // console.log(deleteFromCart.products);
-//   }
-//   res.send("you succeed!");
-// });
+    console.log(updateCartProducts);
+    const deleteFromCart = await models.Cart.findOneAndUpdate(
+      { _id: cartId },
+      { products: theCart.products}
+    ).exec();
+    // console.log(deleteFromCart.products);
+  }
+  res.send("you succeed!");
+});
 

@@ -26,10 +26,10 @@ const GoToPay=(props)=>{
   }
    function goPay(){
     console.log(creditNmber);
-    if (name&&password){
-    Axios.post("/api/shop/newCart",newCart).then((res)=>{
-      console.log(res.data)
-    })}
+    // if (name&&password){
+    // Axios.post("/api/shop/newCart",newCart).then((res)=>{
+    //   console.log(res.data)
+    // })}
   }
 
     return(
