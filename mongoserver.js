@@ -95,57 +95,55 @@ app.put("/api/shop/update", async (req, res) => {
 });
 
 app.post("/api/shop/newCart",async (req, res) => {
-  res.send("nu")
+    const {itemsOfCart, name, password}=req.body;
+    let productsArray=[];
+
+   // find the customer (if he already there is) or create a new customer
+   let customer =  await models.Customer.findOne({
+    name: name,
+    password: password,
+  }).exec();
+  if (!customer) {
+    customer = new models.Customer({ name: name, password: password });
+    await customer.save();
+  }
+
+  // create a new cart
+    
+    const newCart = new models.Cart({ customer: customer._id });
+    await newCart.save();
+    await models.Customer.findOneAndUpdate(
+      { name: name, password: password },
+      { carts: [...customer.carts, newCart] }
+    ).exec();
+    console.log("cart in customer")
+    
+  
+
+  itemsOfCart.map(async (item)=>{
+    const product = await models.Product.findOne({
+      title: item.title,
+    }).exec();
+
+    //create a new product in cart
+    const newCartProduct = new models.ProductInCart({
+      productFromShop: product._id,
+      quantityOnCart: item.quantityOnCart,
+      cartId: newCart._id,
+    });
+    await newCartProduct.save();  
+
+    productsArray=[...productsArray, newCartProduct._id];
+    
+    const updateCart= await models.Cart.findOneAndUpdate(
+      { _id: newCart._id },
+      { products: productsArray}
+    ).exec();
+  
+  });
+    
+  res.send("the customer and cart saved");
 })
-//     const {itemsOfCart, name, password}=req.body;
-//     let productsArray=[];
-
-//    // find the customer (if he already there is) or create a new customer
-//    let customer =  await models.Customer.findOne({
-//     name: name,
-//     password: password,
-//   }).exec();
-//   if (!customer) {
-//     customer = new models.Customer({ name: name, password: password });
-//     await customer.save();
-//   }
-
-//   // create a new cart
-    
-//     const newCart = new models.Cart({ customer: customer._id });
-//     await newCart.save();
-//     await models.Customer.findOneAndUpdate(
-//       { name: name, password: password },
-//       { carts: [...customer.carts, newCart] }
-//     ).exec();
-//     console.log("cart in customer")
-    
-  
-
-//   itemsOfCart.map(async (item)=>{
-//     const product = await models.Product.findOne({
-//       title: item.title,
-//     }).exec();
-
-//     //create a new product in cart
-//     const newCartProduct = new models.ProductInCart({
-//       productFromShop: product._id,
-//       quantityOnCart: item.quantityOnCart,
-//       cartId: newCart._id,
-//     });
-//     await newCartProduct.save();  
-
-//     productsArray=[...productsArray, newCartProduct._id];
-    
-//     const updateCart= await models.Cart.findOneAndUpdate(
-//       { _id: newCart._id },
-//       { products: productsArray}
-//     ).exec();
-  
-//   });
-    
-//   res.send("the customer and cart saved");
-// })
 
 
 // app.post("/api/shop/cartAdd", async (req, res) => {
