@@ -12,7 +12,7 @@ const connectDb = () => {
       useUnifiedTopology: true,
       useFindAndModify: false,
     }
-  );
+  ).catch(err => console.log(err));
 };
 
 const models = { Product, ProductInCart, Cart, Customer };
