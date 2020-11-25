@@ -2,10 +2,10 @@
 // import { Input, Form, Button } from "antd";
 // import "./SendPhoneNumber.css";
 
-let ob = { m: "mush" };
-console.log(ob);
-console.log(String(ob));
-console.log(JSON.stringify(ob));
+// let ob = { m: "mush" };
+// console.log(ob);
+// console.log(String(ob));
+// console.log(JSON.stringify(ob));
 
 // const SendPhoneNumber = (props) => {
 //   const [visabilityInput, setVisabilityInput] = useState(false);
@@ -342,3 +342,73 @@ console.log(JSON.stringify(ob));
 // };
 
 // export default LogIn;
+
+
+
+
+import React, {useState, useContext } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {TextField, Select, MenuItem} from '@material-ui/core';
+
+function App() {
+  const [startAt,setStartAt]=useState("07:30");
+  const [endAt,setEndAt]=useState("07:30");
+  const [room,setRoom]=useState(2);
+
+  function submit(){
+    console.log (startAt);
+    console.log (endAt);
+    console.log (room);
+  }
+  
+  return (
+    <div className="App">
+      <header className="App-header">
+        <p>
+         Rooms Management
+        </p>
+         </header>
+        <body className="body">
+        <TextField
+        onChange={(e)=>setStartAt(e.target.value)}
+        id="time"
+        label= "שעת התחלה"
+        type="time"
+        defaultValue={startAt}
+        className="textField"
+        
+      />
+       <TextField
+        onChange={(e)=>setEndAt(e.target.value)}
+        id="time"
+        label= "שעת סיום"
+        type="time"
+        defaultValue={endAt}
+        className="textField"
+        
+      />
+       <Select
+          labelId="בחר את סוג החדר"
+          id="selectRoom"
+          value={room}
+          onChange={(e)=>setRoom(e.target.value)}
+          className="select"
+        >
+          <MenuItem value={2}>שני משתתפים</MenuItem>
+          <MenuItem value={6}>עד 6 משתתפים</MenuItem>
+          <MenuItem value={14}>עד 14 משתתפים</MenuItem>
+          <MenuItem value={25}>עד 25 משתתפים</MenuItem>
+        </Select>
+        
+          <br/>
+        
+          <button onClick={submit}>מתאים לי בדיוק</button>
+        </body> 
+         
+    </div>
+  );
+}
+
+export default App;
+

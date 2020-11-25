@@ -14,6 +14,7 @@ function Products(props) {
   const [value0, setValue0] = useState(0);
   const [value1, setValue1] = useState(0);
   const [value2, setValue2] = useState(0);
+  let keyNumber=0;
 
   for (let i=0;i<products.length;i++){
     if (products[i].price>value2){setValue1(products[i].price);setValue2(products[i].price)}
@@ -50,7 +51,7 @@ function Products(props) {
           
           product.price > value0 && 
             product.price <= value1 && (
-            <div className={className}>
+            <div className={className} key={product._id}>
               <Product
                 information={props.information}
                 product={product}

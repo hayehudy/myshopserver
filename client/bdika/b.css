@@ -1,0 +1,42 @@
+.App {
+    text-align: center;
+  }
+  
+  
+  .App-header {
+    background-color:white ;
+    /* min-height: 100vh; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: rgb(19, 4, 105);
+  }
+  
+  .body {
+    background-color:white ;
+    /* min-height: 100vh; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: rgb(19, 4, 105);
+  }
+  
+  .textField{
+    width: 200px;
+  }
+  
+  .select{
+    width: 200px;
+  }
+  
+  button{
+  width: 100px;
+  height: 40px;
+  }
+  
+  
+  

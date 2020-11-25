@@ -37,11 +37,11 @@ function Product(props) {
 
   function add() {
     if (prop.quantity > 0) {
-      if (name && password) {
-        axios.post("/api/shop/cartAdd", body).then((res) => {
-          setCartId(res.data);
-        });
-      }
+      // if (name && password) {
+      //   axios.post("/api/shop/cartAdd", body).then((res) => {
+      //     setCartId(res.data);
+      //   });
+      // }
       //change the 
       setCart(cart + 1);
       setCartCharge(cartCharge + prop.price);
@@ -65,10 +65,10 @@ function Product(props) {
   function remove () {
     
     if (place1>-1) {
-      if (name && password) {
-        //
-        axios.post("/api/shop/cartRemove", body);
-      }
+      // if (name && password) {
+      //   //
+      //   axios.post("/api/shop/cartRemove", body);
+      // }
       setCart(cart - 1);
       setCartCharge(cartCharge - prop.price);
       //change the quantity of the product in the shop
