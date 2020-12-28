@@ -1,4 +1,4 @@
-.App {
+/* .App {
   position: relative;
   text-align: center;
   border-width: 3px;
@@ -6,13 +6,8 @@
   border-style: solid;
   width: 865px;
   height: 710px;
-}
+} */
 
-.hed {
-  position: absolute;
-  width: 98%;
-  margin: 7px;
-}
 
 /* .prod {
   position: absolute;
@@ -40,7 +35,7 @@
   flex: 1 1 auto;
   overflow-y: auto;
 } */
-
+/* 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -74,4 +69,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

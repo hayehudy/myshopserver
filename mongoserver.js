@@ -1,8 +1,8 @@
 const express = require("express");
 const fs = require("fs");
-const app = express();
 const http = require("http");
 const socketIo = require("socket.io");
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const bodyParser = require("body-parser");
@@ -95,7 +95,7 @@ app.put("/api/shop/update", async (req, res) => {
 });
 
 app.post("/api/shop/newCart",async (req, res) => {
-    const {itemsOfCart, name, password}=req.body;
+    const {itemsOfCart, name, password, charge}=req.body;
     let productsArray=[];
 
    // find the customer (if he already there is) or create a new customer
@@ -110,15 +110,12 @@ app.post("/api/shop/newCart",async (req, res) => {
 
   // create a new cart
     
-    const newCart = new models.Cart({ customer: customer._id });
+    const newCart = new models.Cart({ customer: customer._id, charge:charge  });
     await newCart.save();
     await models.Customer.findOneAndUpdate(
       { name: name, password: password },
       { carts: [...customer.carts, newCart] }
-    ).exec();
-    console.log("cart in customer")
-    
-  
+    ).exec();  
 
   itemsOfCart.map(async (item)=>{
     const product = await models.Product.findOne({

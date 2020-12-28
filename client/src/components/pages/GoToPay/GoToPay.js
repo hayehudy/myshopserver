@@ -19,13 +19,16 @@ const GoToPay=(props)=>{
     cartId,
     setCartId,
   } = useContext(Context);
+  
   const newCart={
     itemsOfCart:itemsOfCart,
     name:name,
     password:password,
+    charge: cartCharge
   }
    function goPay(){
     console.log(creditNmber);
+
     if (name&&password){
     Axios.post("/api/shop/newCart",newCart).then((res)=>{
       console.log(res.data)

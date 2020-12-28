@@ -6,7 +6,6 @@ import CustomerLogin from "../src/components/pages/CustomerLogin/CustomerLogin";
 import GoToPay from "../src/components/pages/GoToPay/GoToPay";
 import Change from "../src/components/pages/ChangeServer/Change";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Header from "../src/components/header/header";
 import Products from "../src/components/products/products";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
@@ -67,14 +66,11 @@ function App() {
         <Switch>
           <Route exact path="/">
             <div className="App">
-              <div className="hed">
-                <Header />
-              </div>
               {/* <div className="cart">
                 פריטים שנוספו לעגלה: {cart}
                 <br />
                 לתשלום: {cartCharge} */}
-                <Products className="items"  products={itemsOfCart} information={"cart"}/>
+                {/* <Products className="items"  products={itemsOfCart} information={"cart"}/> */}
               </div>
 
               <div className="prod">

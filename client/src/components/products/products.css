@@ -1,19 +1,32 @@
 .pro {
+  display:grid;
+  /* grid-template-areas: "header header" "header header" "slider search" "products products" "products products" "products products"; */
+  grid-template: 1fr 1fr 18fr / 1fr 1fr;
   text-align: center;
-  position: absolute;
-  margin: 7px;
+  /* position: absolute; */
+  /* margin: 7px;
   top: 72px;
   border-style: solid;
   border-width: 3px;
   border-color: orange;
   height: 620px;
-  width: 670px;
-  overflow-y: auto;
+  width: 670px; */
+  
 }
+
+/* .grid-item1 {grid-area: header}
+.grid-item2 {grid-area: slider}
+.grid-item3 {grid-area: search}
+.grid-item4 {grid-area: products} */
+
+.grid-item1 {grid-area: 1/1/2/3}
+.grid-item2 {grid-area: 2/1/3/2}
+.grid-item3 {grid-area: 2/2/3/3}
+.grid-item4 {grid-area: 3/1/4/3; overflow-y: auto;}
 
 .cart {
   text-align: center;
-  position: absolute;
+  /* position: absolute; */
   display: inline;
   border-width: 3px;
   border-color: brown;
@@ -25,6 +38,12 @@
   width: 165px;
   flex: 1 1 auto;
   overflow-y: auto;
+}
+
+.hed {
+  /* position: absolute; */
+  /* width: 98%;
+  margin: 7px; */
 }
 
 /* .pay{

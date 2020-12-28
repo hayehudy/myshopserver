@@ -108,7 +108,9 @@ function Product(props) {
           </>
         )}
       </Link>
+      <br/>
       <button onClick={add}>{buttonOfAdd}</button>
+      <br/>
       <button onClick={remove}>{buttonOfRemove}</button>
     </div>
   );

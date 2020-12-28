@@ -4,6 +4,7 @@ import Product from "./product";
 import { Slider } from "antd";
 import Context from "../../context";
 import { OmitProps } from "antd/lib/transfer/ListBody";
+import Header from "../header/header";
 
 function Products(props) {
   const { data, search, setSearch, cart, cartCharge } = useContext(Context);
@@ -32,20 +33,26 @@ function Products(props) {
   return (
     <div className={className1}>
       {props.information==="shop"?
-      (<><Slider
+      (<>
+      <div className="hed grid-item1">
+      <Header />
+      </div>
+      <Slider
       range
       step={10}
         defaultValue={[0, value2]}
         min={0}
         max={value2}
         onAfterChange={onAfterChange}
-      />
+        className="grid-item2"
+      /><div className="grid-item3">
       <input onChange={(e) => searchProduct(e.target.value)}></input>
       <> חפש מוצר
-      בחנות</>
-      <br /></>):(<> פריטים שנוספו לעגלה: {cart}
+      בחנות</></div></>):
+      (<> פריטים שנוספו לעגלה: {cart}
                 <br />
                 לתשלום: {cartCharge}</>)}
+      <div className="map grid-item4">
       {products.map(
         (product) =>
           
@@ -59,6 +66,7 @@ function Products(props) {
             </div>
           )
               )}
+              </div>
     </div>
   );
 }
